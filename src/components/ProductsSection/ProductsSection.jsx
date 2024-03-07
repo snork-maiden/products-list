@@ -11,7 +11,7 @@ function ProductsSection() {
   return (
     <section>
       <Filters/>
-      <ProductsList/>
+      <ProductsList page={page}/>
       <Pagination page={page} onChange={(page) => setPage(page)}/>
     </section>
   )
