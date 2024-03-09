@@ -1,0 +1,20 @@
+.product {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+}
+
+.brand {
+    font-style: italic;
+}
+
+.title {
+    font-weight: 500;
+    font-size: 1.25em;
+    max-width: 250px;
+}
+
+.price {
+    margin-top: auto;
+}

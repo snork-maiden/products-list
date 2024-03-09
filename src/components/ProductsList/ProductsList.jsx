@@ -1,31 +1,44 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
 import ProductItem from '../ProductItem/ProductItem'
-import './ProductsList.module.css'
+import styles from './ProductsList.module.css';
 import { getProductsItems } from '../../api/api';
 
 function ProductsList({page}) {
   let [productsList, setProductsList] = useState([])
+  let [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     getProducts()
   }, []); 
 
 async function getProducts() {
+  setIsLoading(true)
   const products = await getProductsItems(page)
-  console.log(products)
   setProductsList(products)
+  setIsLoading(false)
 }
 
-  return (
-    <ul className="products">
-      {
+useEffect(() => {
+  getProducts();
+}, [page]);
 
+  return (
+    <>
+    {isLoading && <p>Is Loading</p>}
+    {!isLoading && 
+    <ul className={styles.products}>
+      {
       productsList.map((product)=> (
-        <ProductItem key={product.id}/>
+        <li className={styles.card} key={product.id} >
+          <ProductItem product={product}/>
+        </li>
       ))
       }
     </ul>
+    }
+
+    </>
   )
 }
 

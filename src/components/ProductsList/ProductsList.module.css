@@ -1,0 +1,13 @@
+.products {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2em;
+    list-style: none;
+}
+
+.card {
+    width: 250px;
+    background-color: #fff;
+    padding: 1em;
+    border-radius: 5px;
+}

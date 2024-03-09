@@ -55,7 +55,7 @@ async function getProductsFields(fieldName) {
 async function getProductsData(action, params) {
     const date = (new Date()).toJSON();
     const today = date.slice(0, 10).replaceAll('-', '');
-    
+
 
     const token = config.password + '_' + today;
     console.log(token)
@@ -83,14 +83,12 @@ async function getProductsData(action, params) {
 }
 async function getProductsList(ids) {
     const response = await getProductsData(Actions.GetItems, { ids })
-    // leaveUniqIds(response.result)
-   return response.result
+    return leaveUniqIds(response.result)
 
-//    function leaveUniqIds(list) {
-//     list = list.reverse()
-//     let ids = list.map(item => item.id)
-//     const obj = Object.fromEntries(ids, list);
-//     console.log(Array.from(Object.values(obj)))
-//    }
+    function leaveUniqIds(products) {
+        let ids = new Set(products.map(product => product.id));
+        ids = Array.from(ids)
+        return ids.map(id => products.find(product => product.id === id))
+    }
 }
 
