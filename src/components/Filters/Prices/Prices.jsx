@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import "./Prices.module.css";
 import { getProductsPrices } from "../../../api/api";
+import Loader from "../../Loader/Loader";
 
 function Prices({ onChange }) {
   let [output, setOutput] = useState(null);
@@ -59,7 +60,7 @@ function Prices({ onChange }) {
 
   return (
     <>
-      <h3 className="title">Цена:</h3>
+      {!prices && <Loader />}
       {prices && (
         <>
           <span className="price">{minPrice}</span>

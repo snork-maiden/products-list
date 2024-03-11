@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import "./Brands.module.css";
+import styles from "./Brands.module.css";
 import { getBrands } from "../../../api/api";
+import Loader from "../../Loader/Loader";
 
 function Brands({ onChange }) {
   let [brands, setBrands] = useState(null);
@@ -19,25 +20,23 @@ function Brands({ onChange }) {
   }
   return (
     <>
-      {brands && (
-        <>
-          <h3 className="title">Бренды</h3>
+          {!brands && <Loader />}
 
-          <ul className="brands">
-            {brands.map((brand, index) => (
-              <li key={index}>
-                <input
-                  type="radio"
-                  name="brand"
-                  value={brand}
-                  id={brand + index}
-                  onClick={(e) => onChange(e.target.value)}
-                />
-                <label htmlFor={brand + index}>{brand}</label>
-              </li>
-            ))}
-          </ul>
-        </>
+      {brands && (
+        <ul className={styles.brands}>
+          {brands.map((brand, index) => (
+            <li key={index}>
+              <input
+                type="radio"
+                name="brand"
+                value={brand}
+                id={brand + index}
+                onClick={(e) => onChange(e.target.value)}
+              />
+              <label htmlFor={brand + index}>{brand}</label>
+            </li>
+          ))}
+        </ul>
       )}
     </>
   );

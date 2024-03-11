@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import ProductItem from "../ProductItem/ProductItem";
 import styles from "./ProductsList.module.css";
 import { getFilteredItems, getProductsItems } from "../../api/api";
+import Loader from "../Loader/Loader";
 
 function ProductsList({ page, filter }) {
   let [productsList, setProductsList] = useState(null);
@@ -39,7 +40,7 @@ function ProductsList({ page, filter }) {
 
   return (
     <>
-      {isLoading && <p>Is Loading</p>}
+      {isLoading && <Loader/>}
       {!isLoading && productsList && (
         <ul className={styles.products}>
           {productsList.map((product) => (
