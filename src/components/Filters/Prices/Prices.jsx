@@ -25,17 +25,15 @@ function Prices({ onChange }) {
   let maxPrice = useMemo(() => (prices ? prices.at(-1) : null), [prices]);
 
   function calculatePrice(e) {
-    const number = e.target.value;
+    const number = +e.target.value;
 
     if (prices.includes(number)) {
       setOutput(number);
-      onChange(number);
       return;
     }
 
     const result = binarySearchClosest(prices, number, 0, prices.length - 1);
     setOutput(result);
-    onChange(result);
 
     function binarySearchClosest(arr, x, start, end) {
       if (end - start <= 1) {
@@ -71,6 +69,7 @@ function Prices({ onChange }) {
               max={maxPrice}
               className={styles.slider}
               onChange={calculatePrice}
+              onMouseUp={() => onChange(output)}
             />
             <span className={styles.price}>{maxPrice}</span>
           </div>

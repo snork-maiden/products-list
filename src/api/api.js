@@ -1,7 +1,7 @@
 import md5 from "md5";
 import config from "../../config";
 
-const baseURL = 'http://api.valantis.store:40000/'
+const baseURL = 'https://api.valantis.store:41000/'
 
 const Actions = {
     GetIds: 'get_ids',
@@ -16,7 +16,7 @@ const Fields = {
 }
 
 export async function getFilteredItems(params) {
-    const response = await getProductsData(Actions.Filter, params);
+    const response = await getProductsData(Actions.Filter, params, 0);
     const ids = response?.result;
     if (!ids.length) return [];
 
@@ -26,7 +26,7 @@ export async function getFilteredItems(params) {
 export async function getProductsItems(page) {
     const offset = config.limit * (page - 1);
 
-    const response = await getProductsData(Actions.GetIds, { offset, limit: config.limit });
+    const response = await getProductsData(Actions.GetIds, { offset, limit: config.limit }, 0);
     const ids = response?.result;
 
     return await getProductsList(ids);
@@ -51,7 +51,7 @@ async function getProductsFields(fieldName) {
                 field: fieldName,
                 limit,
                 offset
-            })
+            }, 0)
             if (!response?.result) continue;
             offset += limit;
             fields.push(...response.result);
@@ -68,7 +68,7 @@ async function getProductsFields(fieldName) {
     return uniqueFields;
 }
 
-async function getProductsData(action, params) {
+async function getProductsData(action, params, retriesNumber) {
     const date = (new Date()).toJSON();
     const today = date.slice(0, 10).replaceAll('-', '');
 
@@ -89,18 +89,24 @@ async function getProductsData(action, params) {
         if (response.ok) {
             return await response.json()
         } else {
+            if (retriesNumber > 5) {
+                return null;
+            }
             console.error('HTTP error ' + response.status);
-            if (response.status === 400 || response.status == 401) return;
-            await getProductsData(action, params)
+            if (response.status === 400 || response.status === 401) return;
+            await getProductsData(action, params, ++retriesNumber)
         }
     } catch (error) {
         console.error(error)
-        await getProductsData(action, params)
+        if (retriesNumber > 5) {
+            return null;
+        }
+        await getProductsData(action, params, ++retriesNumber)
     }
 }
 
 async function getProductsList(ids) {
-    const response = await getProductsData(Actions.GetItems, { ids })
+    const response = await getProductsData(Actions.GetItems, { ids }, 0)
     if (!response?.result) return
     return leaveUniqIds(response.result);
 
@@ -110,4 +116,3 @@ async function getProductsList(ids) {
         return ids.map(id => products.find(product => product.id === id))
     }
 }
-

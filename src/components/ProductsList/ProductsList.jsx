@@ -23,9 +23,10 @@ function ProductsList({ page, filter }) {
   async function getFilteredProducts(filter) {
     setIsLoading(true);
     const products = await getFilteredItems(filter);
+    setIsLoading(false);
+
     if (!products) return;
     setProductsList(products);
-    setIsLoading(false);
   }
 
   useEffect(() => {
@@ -49,7 +50,11 @@ function ProductsList({ page, filter }) {
         </ul>
       )}
       {!isLoading && !productsList.length && (
-        <p className="notFound">Ничего не нашлось :(</p>
+        <p className={styles.error}>Ничего не нашлось :(</p>
+      )}
+      {!isLoading && !productsList && (
+        <p className={styles.error}>Не удалось загрузить(</p>
+
       )}
     </>
   );
