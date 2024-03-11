@@ -2,5 +2,5 @@
   margin: auto;
   display: grid;
   align-items: center;
-  max-width: 95vw;
+  max-width: min(95vw, 1600px);
 }
