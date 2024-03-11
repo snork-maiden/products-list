@@ -1,16 +1,15 @@
 .product {
-display: grid;
-grid-template-rows: 1fr auto auto;
-    height: 100%;
+  display: grid;
+  grid-template-rows: 1fr auto auto;
+  height: 100%;
+  max-width: 200px;
 }
 
 .brand {
-    font-style: italic;
+  font-style: italic;
 }
 
 .title {
-    font-weight: 500;
-    font-size: 1.25em;
-    max-width: 250px;
+  font-weight: 500;
+  font-size: 1.25em;
 }
-

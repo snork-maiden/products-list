@@ -1,10 +1,10 @@
 
-import './App.module.css';
+import styles from './App.module.css';
 import ProductsSection from './components/ProductsSection/ProductsSection'
 
 function App() {
   return (
-    <main>
+    <main className={styles.main}>
       <ProductsSection/>
     </main>
   )

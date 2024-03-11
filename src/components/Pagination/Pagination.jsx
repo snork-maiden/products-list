@@ -1,22 +1,22 @@
 /* eslint-disable react/prop-types */
 
-import "./Pagination.module.css";
+import styles from "./Pagination.module.css";
 
 function Pagination({ page, onChange }) {
   return (
-    <div className="wrapper">
+    <div className={styles.wrapper}>
       <button
         type="button"
-        className="paginate"
+        className={styles.paginate}
         onClick={() => onChange(page - 1)}
         disabled={page < 2}
       >
         Назад
       </button>
-      {page}
+      <span className={styles.page}>{page}</span>
       <button
         type="button"
-        className="paginate"
+        className={styles.paginate}
         onClick={() => onChange(page + 1)}
       >
         Вперед

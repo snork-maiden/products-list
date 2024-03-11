@@ -1,0 +1,9 @@
+.wrapper {
+    display: flex;
+    gap: 0.4em;
+    margin-bottom: 0.2em;
+}
+
+.output {
+font-size: 1.1em;
+}

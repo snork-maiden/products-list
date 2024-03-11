@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import "./Prices.module.css";
+import styles from "./Prices.module.css";
 import { getProductsPrices } from "../../../api/api";
 import Loader from "../../Loader/Loader";
 
@@ -63,16 +63,18 @@ function Prices({ onChange }) {
       {!prices && <Loader />}
       {prices && (
         <>
-          <span className="price">{minPrice}</span>
-          <input
-            type="range"
-            min={minPrice}
-            max={maxPrice}
-            className="slider"
-            onChange={calculatePrice}
-          />
-          <span className="price">{maxPrice}</span>
-          {output && <div className="output">{output}</div>}
+          <div className={styles.wrapper}>
+            <span className={styles.price}>{minPrice}</span>
+            <input
+              type="range"
+              min={minPrice}
+              max={maxPrice}
+              className={styles.slider}
+              onChange={calculatePrice}
+            />
+            <span className={styles.price}>{maxPrice}</span>
+          </div>
+          {output && <div className={styles.output}>{output}</div>}
         </>
       )}
     </>

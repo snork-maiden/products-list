@@ -16,9 +16,9 @@ const Fields = {
 }
 
 export async function getFilteredItems(params) {
-    console.log(params)
     const response = await getProductsData(Actions.Filter, params);
     const ids = response?.result;
+    if (!ids.length) return [];
 
     return await getProductsList(ids);
 }

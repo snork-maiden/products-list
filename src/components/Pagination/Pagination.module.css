@@ -1,0 +1,11 @@
+.wrapper {
+    margin-top: auto;
+    display: flex;
+    gap: 1em;
+    align-items: center;
+}
+
+.page {
+    font-size: 1.3em;
+    font-weight: 400;
+}

@@ -2,7 +2,7 @@ import { useState } from "react";
 import Filters from "../Filters/Filters";
 import Pagination from "../Pagination/Pagination";
 import ProductsList from "../ProductsList/ProductsList";
-import "./ProductsSection.module.css";
+import styles from "./ProductsSection.module.css";
 
 function ProductsSection() {
   const [page, setPage] = useState(1);
@@ -14,10 +14,10 @@ function ProductsSection() {
   }
 
   return (
-    <section>
+    <section className={styles.products}>
       <Filters onFilterChange={(filter) => onFilterChange(filter)} />
       <ProductsList page={page} filter={filter} />
-      <Pagination page={page} onChange={(page) => setPage(page)} />
+      {!filter && <Pagination page={page} onChange={(page) => setPage(page)} />}
     </section>
   );
 }

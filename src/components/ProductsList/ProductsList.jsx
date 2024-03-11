@@ -23,7 +23,6 @@ function ProductsList({ page, filter }) {
 
   async function getFilteredProducts(filter) {
     setIsLoading(true);
-    console.log(5, filter)
     const products = await getFilteredItems(filter);
     if (!products) return;
     setProductsList(products);
@@ -40,8 +39,8 @@ function ProductsList({ page, filter }) {
 
   return (
     <>
-      {isLoading && <Loader/>}
-      {!isLoading && productsList && (
+      {isLoading && <Loader />}
+      {(!isLoading && productsList && productsList.length > 0) && (
         <ul className={styles.products}>
           {productsList.map((product) => (
             <li className={styles.card} key={product.id}>
@@ -49,6 +48,9 @@ function ProductsList({ page, filter }) {
             </li>
           ))}
         </ul>
+      )}
+      {!isLoading && !productsList.length && (
+        <p className="notFound">Ничего не нашлось :(</p>
       )}
     </>
   );
