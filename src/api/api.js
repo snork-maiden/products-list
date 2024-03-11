@@ -19,7 +19,7 @@ export async function getProductsItems(page) {
     const offset = config.limit * (page - 1);
 
     const response = await getProductsData(Actions.GetIds, { offset, limit: config.limit });
-    const ids = response.result;
+    const ids = response?.result;
 
     return await getProductsList(ids);
 }
@@ -33,23 +33,31 @@ export async function getBrands() {
 }
 
 async function getProductsFields(fieldName) {
-    const limit = 200;
+    const limit = 2000;
     let offset = 0;
     let fields = []
 
     do {
-        const response = await getProductsData(Actions.GetFields, {
-            field: fieldName,
-            limit,
-            offset
-        })
+        try {
+            var response = await getProductsData(Actions.GetFields, {
+                field: fieldName,
+                limit,
+                offset
+            })
+            if(! response?.result) continue;
+            offset += limit;
+            fields.push(...response.result);
+        } catch (error) {
+            console.error(error);
+        }
 
-        offset += limit;
-        fields.push(response.result);
+    } while ((fields.length % limit) === 0);
 
-    } while (fields.length % limit === 0);
+    fields = fields.filter(field => field !== null)
 
-    return fields.filter(field => field !== null)
+    const uniqueFields = Array.from(new Set(fields))
+
+    return uniqueFields;
 }
 
 async function getProductsData(action, params) {
@@ -58,7 +66,6 @@ async function getProductsData(action, params) {
 
 
     const token = config.password + '_' + today;
-    console.log(token)
     try {
         let response = await fetch(baseURL, {
             method: 'POST',
@@ -73,17 +80,21 @@ async function getProductsData(action, params) {
         })
         if (response.ok) {
             return await response.json()
+        } else {
+            console.error('HTTP error ' + response.status);
+            if (response.status === 400 || response.status == 401) return;
+            await getProductsData(action, params)
         }
-        console.error('HTTP error ' + response.status);
-        if (response.status === 400 || response.status == 401) return
-        // getProductsData(action, params);
     } catch (error) {
         console.error(error)
+        await getProductsData(action, params)
     }
 }
+
 async function getProductsList(ids) {
     const response = await getProductsData(Actions.GetItems, { ids })
-    return leaveUniqIds(response.result)
+    if(!response?.result) return 
+    return leaveUniqIds(response.result);
 
     function leaveUniqIds(products) {
         let ids = new Set(products.map(product => product.id));
