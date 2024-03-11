@@ -1,5 +1,4 @@
-/* eslint-disable react/prop-types */
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import ProductItem from "../ProductItem/ProductItem";
 import styles from "./ProductsList.module.css";
 import { getFilteredItems, getProductsItems } from "../../api/api";
@@ -9,17 +8,17 @@ function ProductsList({ page, filter }) {
   let [productsList, setProductsList] = useState(null);
   let [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    getProducts();
-  }, []);
-
-  async function getProducts() {
+  const getProducts = useCallback(async () => {
     setIsLoading(true);
     const products = await getProductsItems(page);
     if (!products) return;
     setProductsList(products);
     setIsLoading(false);
-  }
+  }, [page]);
+
+  useEffect(() => {
+    getProducts();
+  }, [getProducts]);
 
   async function getFilteredProducts(filter) {
     setIsLoading(true);
@@ -35,12 +34,12 @@ function ProductsList({ page, filter }) {
       return;
     }
     getFilteredProducts(filter);
-  }, [page, filter]);
+  }, [page, filter, getProducts]);
 
   return (
     <>
       {isLoading && <Loader />}
-      {(!isLoading && productsList && productsList.length > 0) && (
+      {!isLoading && productsList && productsList.length > 0 && (
         <ul className={styles.products}>
           {productsList.map((product) => (
             <li className={styles.card} key={product.id}>
