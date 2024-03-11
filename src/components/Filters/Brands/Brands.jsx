@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./Brands.module.css";
-import { getBrands } from "../../api/api";
+import { getBrands } from "../../../api/api";
 
 function Brands({ onChange }) {
   let [brands, setBrands] = useState(null);

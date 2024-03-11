@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import "./Prices.module.css";
-import { getProductsPrices } from "../../api/api";
+import { getProductsPrices } from "../../../api/api";
 
 function Prices({ onChange }) {
   let [output, setOutput] = useState(null);
@@ -25,7 +25,6 @@ function Prices({ onChange }) {
 
   function calculatePrice(e) {
     const number = e.target.value;
-    console.log(number);
 
     if (prices.includes(number)) {
       setOutput(number);

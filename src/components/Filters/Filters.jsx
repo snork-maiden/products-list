@@ -1,6 +1,6 @@
 import "./Filters.module.css";
-import Brands from "../Brands/Brands";
-import Prices from "../Prices/Prices";
+import Brands from "./Brands/Brands";
+import Prices from "./Prices/Prices";
 
 function Filters({ onFilterChange }) {
   function handleSubmit(e) {
@@ -16,8 +16,8 @@ function Filters({ onFilterChange }) {
         <input type="search" name="search" id="search" />
         <button type="submit">Поиск</button>
       </form>
-      <Prices onChange={(value) => onFilterChange({ prices: value })} />
-      <Brands onChange={(value) => onFilterChange({ brands: value })} />
+      <Prices onChange={(value) => onFilterChange({ price: value })} />
+      <Brands onChange={(value) => onFilterChange({ brand: value })} />
     </div>
   );
 }

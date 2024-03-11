@@ -15,6 +15,14 @@ const Fields = {
     Price: "price",
 }
 
+export async function getFilteredItems(params) {
+    console.log(params)
+    const response = await getProductsData(Actions.Filter, params);
+    const ids = response?.result;
+
+    return await getProductsList(ids);
+}
+
 export async function getProductsItems(page) {
     const offset = config.limit * (page - 1);
 
@@ -44,7 +52,7 @@ async function getProductsFields(fieldName) {
                 limit,
                 offset
             })
-            if(! response?.result) continue;
+            if (!response?.result) continue;
             offset += limit;
             fields.push(...response.result);
         } catch (error) {
@@ -93,7 +101,7 @@ async function getProductsData(action, params) {
 
 async function getProductsList(ids) {
     const response = await getProductsData(Actions.GetItems, { ids })
-    if(!response?.result) return 
+    if (!response?.result) return
     return leaveUniqIds(response.result);
 
     function leaveUniqIds(products) {
