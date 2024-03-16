@@ -1,6 +1,7 @@
 # Products List
 
 A simple web application to display products using an API, with features for pagination and filtering.
+View on GitHub Pages: https://snork-maiden.github.io/products-list/
 
 ## Stack
 
